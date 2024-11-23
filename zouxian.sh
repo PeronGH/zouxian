@@ -8,8 +8,8 @@ while [ $SECONDS_PASSED -lt $MAX_WAIT_TIME ]; do
   PID=$(pgrep eligibilityd)
   if [ ! -z "$PID" ]; then
     echo "eligibilityd found with PID $PID"
-    lldb --batch \
-    -o "process attach --name eligibilityd" \
+    sudo lldb --batch \
+    -o "process attach --pid $PID" \
     -o "expression (void) [[[InputManager sharedInstance] objectForInputValue:6] setValue:@\"LL\" forKey:@\"_deviceRegionCode\"]" \
     -o "expression (void) [[EligibilityEngine sharedInstance] recomputeAllDomainAnswers]" \
     -o "process detach" \
